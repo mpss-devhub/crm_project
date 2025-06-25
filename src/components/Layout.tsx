@@ -17,12 +17,13 @@ export default function Layout({ children, isAdmin = false }: LayoutProps) {
   
     const commonMenuItems = [
       { name: 'Dashboard', path: '/', icon: <MdOutlineDashboardCustomize size={20} /> },
-      { name: 'Calendar', path: '/calendar', icon: <SlCalender size={20} /> },
+      
     ];
     
     const adminMenuItems = [
       { name: 'User Manage', path: '/admin/user', icon: <MdPeople size={20} /> },
       { name: 'Projects', path: '/admin/projects', icon: <GoProject size={20} /> },
+      { name: 'Calendar', path: 'admin/calendar', icon: <SlCalender size={20} /> },
     ];
     
     const userMenuItems = [
