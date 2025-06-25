@@ -5,7 +5,7 @@ type CreateBtnProps = {
   type?: 'submit' | 'button' | 'reset';
   value: string;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  className?: string;
+className?: string;
   disabled?: boolean;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 

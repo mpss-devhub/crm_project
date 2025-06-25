@@ -30,7 +30,7 @@ const SelectBox: React.FC<SelectBoxProps> = ({
       
       <select
         id={id}
-        className={`w-full bg-[#D9D9D9] ring-2 ring-[rgb(180,222,243)] rounded-[10px] py-1 px-3 pr-10 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm sm:text-base form-select ${errorMessage ? 'is-invalid' : ''}`}
+        className={`w-full ring-2 ring-[rgb(180,222,243)] rounded-[10px] py-1 px-3 pr-10 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm sm:text-base form-select ${errorMessage ? 'is-invalid' : ''}`}
         value={value}
         onChange={onChange}
         required={required}

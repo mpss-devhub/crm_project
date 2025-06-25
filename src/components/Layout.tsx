@@ -9,22 +9,39 @@ import "app/globals.css";
 
 interface LayoutProps {
   children: ReactNode;
+  isAdmin?: boolean; // Add this prop to distinguish between admin and user
 }
 
-export default function Layout({ children }: LayoutProps) {
+export default function Layout({ children, isAdmin = false }: LayoutProps) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   
-    const menuItems = [
+    const commonMenuItems = [
       { name: 'Dashboard', path: '/', icon: <MdOutlineDashboardCustomize size={20} /> },
-      { name: 'User Manage', path: '/user', icon: <MdPeople size={20} /> },
-      { name: 'Projects', path: '/projects', icon: <GoProject size={20} /> },
-      { name: 'calendar', path: '/calendar', icon: <SlCalender size={20} /> },
+      { name: 'Calendar', path: '/calendar', icon: <SlCalender size={20} /> },
     ];
+    
+    const adminMenuItems = [
+      { name: 'User Manage', path: '/admin/user', icon: <MdPeople size={20} /> },
+      { name: 'Projects', path: '/admin/projects', icon: <GoProject size={20} /> },
+    ];
+    
+    const userMenuItems = [
+      { name: 'Member', path: '/member', icon: <MdPeople size={20} /> },
+      { name: 'Projects', path: '/project', icon: <GoProject size={20} /> },
+    ];
+    
     const activityItems = [
-      { name: 'Activity', path: '/activity', icon: <MdNotificationsActive size={20} /> },
+      { name: 'Activity', path: isAdmin ? '/admin/activity' : '/activity', icon: <MdNotificationsActive size={20} /> },
     ];
+    
     const logoutItems = [
       { name: 'Logout', path: '/login', icon: <MdLogout size={20} /> }
+    ];
+    
+  
+    const menuItems = [
+      ...commonMenuItems,
+      ...(isAdmin ? userMenuItems : adminMenuItems )
     ];
     
     return (
@@ -89,7 +106,6 @@ export default function Layout({ children }: LayoutProps) {
           </div>
         </div>
 
-        {/* Main content area - Right side */}
         <div className="flex-1 flex flex-col overflow-hidden ml-0">
           <nav className="bg-[#A1C5D7] text-white p-4 border-b-1">
             <div className="flex justify-end items-center">
@@ -105,13 +121,11 @@ export default function Layout({ children }: LayoutProps) {
             </div>
           </nav>
 
-          {/* Page content */}
           <main className="flex-1 overflow-y-auto p-6 bg-[#A1C5D7]">
             {children}
           </main>
         </div>
 
-        {/* Mobile overlay */}
         {isSidebarOpen && (
           <div
             className="fixed inset-0 bg-black bg-opacity-50 z-10 md:hidden"
