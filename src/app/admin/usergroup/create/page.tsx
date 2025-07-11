@@ -1,5 +1,13 @@
 'use client';
-import { useState } from 'react';
+
+interface PermissionNode {
+    id: string;
+    label: string;
+    checked?: boolean;
+    children?: PermissionNode[];
+}
+
+import { useEffect, useState } from 'react';
 import Layout from "components/Layout";
 import InputBox from 'components/InputBox';
 import Button from 'components/Backbtn';
@@ -7,7 +15,7 @@ import PasswordBox from 'components/PasswordBox';
 import SelectBox from 'components/selectBox';
 import { Label } from 'components/label';
 import CreateButton from 'components/createBtn';
-import { PermissionTree } from 'components/TreeNode';
+import TreeNode from '@/components/TreeNode';
 
 export default function UserGroupCreatePage() {
     const [name, setName] = useState('');
@@ -15,6 +23,7 @@ export default function UserGroupCreatePage() {
     const [password, setPassword] = useState('');
     const [selectedGroup, setSelectedGroup] = useState('');
     const [formErrors, setFormErrors] = useState({ systemType: '' });
+    const [treeData, setTreeData] = useState<PermissionNode[]>([]);
 
     const systemType = [
         { value: "", label: "Select system type", disabled: true },
@@ -25,6 +34,51 @@ export default function UserGroupCreatePage() {
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         console.log('Form submitted!');
+    };
+
+    useEffect(() => {
+        const fetchPermissions = async () => {
+            try {
+                const response = await fetch("/api/permissions");
+                if (!response.ok) throw new Error("Failed to fetch permissions");
+                const data = await response.json();
+                const treeStructure = buildPermissionTree(data);
+                setTreeData(treeStructure);
+            } catch (error) {
+                console.error("Error fetching permissions:", error);
+            }
+        };
+
+        fetchPermissions();
+    }, []);
+
+    const buildPermissionTree = (permissions: any[]): PermissionNode[] => {
+        const permissionMap = new Map<string, PermissionNode>();
+        permissions.forEach((permission) => {
+            permissionMap.set(permission.id, {
+                id: permission.id,
+                label: permission.name,
+                checked: false,
+                children: [],
+            });
+        });
+
+        const tree: PermissionNode[] = [];
+
+        permissions.forEach((permission) => {
+            const node = permissionMap.get(permission.id);
+            if (permission.parentId) {
+                const parent = permissionMap.get(permission.parentId);
+                if (parent) {
+                    parent.children = parent.children || [];
+                    parent.children.push(node!);
+                }
+            } else {
+                tree.push(node!);
+            }
+        });
+
+        return tree;
     };
 
     return (
@@ -111,10 +165,18 @@ export default function UserGroupCreatePage() {
                             </Label>
                         </div>
                         <div className="flex-1">
-                           <PermissionTree />
+                            {treeData.map((node) => (
+                                <TreeNode key={node.id} node={node} onChange={(updatedNode) => {
+                                    const updatedTree = treeData.map((n) =>
+                                        n.id === updatedNode.id ? updatedNode : n
+                                    );
+                                    setTreeData(updatedTree);
+                                }} />
+                            ))}
+
                         </div>
                     </div>
-                    
+
                     <div className="flex items-center gap-4">
                         <CreateButton
                             id="submit-btn"
