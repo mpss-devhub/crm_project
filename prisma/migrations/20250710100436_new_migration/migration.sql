@@ -56,7 +56,6 @@ CREATE TABLE `user_groups` (
     `name` VARCHAR(255) NOT NULL,
     `system_type` VARCHAR(25) NULL,
     `description` VARCHAR(255) NULL,
-    `permission` JSON NULL,
     `created_by` VARCHAR(255) NULL,
     `created_at` TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     `updated_by` VARCHAR(255) NULL,
@@ -71,6 +70,24 @@ CREATE TABLE `user_groups` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
+CREATE TABLE `permissions` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(255) NOT NULL,
+    `group` VARCHAR(255) NOT NULL,
+    `parentId` INTEGER NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `group_permissions` (
+    `userGroupId` INTEGER NOT NULL,
+    `permissionId` INTEGER NOT NULL,
+
+    PRIMARY KEY (`userGroupId`, `permissionId`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `user` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `user_id` VARCHAR(7) NOT NULL,
@@ -80,12 +97,12 @@ CREATE TABLE `user` (
     `phone` VARCHAR(16) NULL,
     `password` VARCHAR(255) NOT NULL,
     `pj_member_id` INTEGER NOT NULL,
-    `user_group_id` INTEGER NULL,
+    `user_group_id` VARCHAR(191) NULL,
     `department` VARCHAR(45) NULL,
     `project_id` INTEGER NULL,
     `created_by` VARCHAR(255) NULL,
     `created_at` TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-    `updated_at` TIMESTAMP(6) NOT NULL,
+    `updated_at` TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
 
     UNIQUE INDEX `User_user_id_key`(`user_id`),
     UNIQUE INDEX `User_email_key`(`email`),
@@ -102,6 +119,15 @@ CREATE TABLE `user` (
 ALTER TABLE `projects` ADD CONSTRAINT `projects_pj_member_id_fkey` FOREIGN KEY (`pj_member_id`) REFERENCES `pj_members`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE `permissions` ADD CONSTRAINT `permissions_parentId_fkey` FOREIGN KEY (`parentId`) REFERENCES `permissions`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `group_permissions` ADD CONSTRAINT `group_permissions_userGroupId_fkey` FOREIGN KEY (`userGroupId`) REFERENCES `user_groups`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `group_permissions` ADD CONSTRAINT `group_permissions_permissionId_fkey` FOREIGN KEY (`permissionId`) REFERENCES `permissions`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE `user` ADD CONSTRAINT `User_pj_member_id_fkey` FOREIGN KEY (`pj_member_id`) REFERENCES `pj_members`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -111,4 +137,4 @@ ALTER TABLE `user` ADD CONSTRAINT `User_project_id_fkey` FOREIGN KEY (`project_i
 ALTER TABLE `user` ADD CONSTRAINT `User_role_id_fkey` FOREIGN KEY (`role_id`) REFERENCES `roles`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `user` ADD CONSTRAINT `User_user_group_id_fkey` FOREIGN KEY (`user_group_id`) REFERENCES `user_groups`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `user` ADD CONSTRAINT `User_user_group_id_fkey` FOREIGN KEY (`user_group_id`) REFERENCES `user_groups`(`groupId`) ON DELETE SET NULL ON UPDATE CASCADE;

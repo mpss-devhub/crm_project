@@ -23,7 +23,7 @@
       "@/*": ["./src/*"],
       "@/styles/*": ["styles/*"],
       "@/components/*": ["components/*"],
-      "@/lib/*": ["lib/*"],
+      "@/lib/*": ["./lib/*"],
       "@/api/*": ["api/*"],
       "@/prisma/client": ["node_modules/@prisma/client"]
     }

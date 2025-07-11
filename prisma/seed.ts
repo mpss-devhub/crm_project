@@ -4,6 +4,79 @@ import { hash } from 'bcryptjs';
 const prisma = new PrismaClient();
 
 async function main() {
+  const permissionTree = [
+    {
+      name: "User Management",
+      group: "user",
+      children: [
+        { name: "View Users", group: "user" },
+        { name: "Edit Users", group: "user" },
+        { name: "Create Users", group: "user" },
+        { name: "List Users", group: "user" },
+        { name: "Permission", group: "user" },
+      ],
+    },
+    {
+      name: "Member Management",
+      group: "member",
+      children: [
+        { name: "View Member", group: "member" },
+        { name: "Edit Member", group: "member" },
+        { name: "Create Member", group: "member" },
+        { name: "List Member", group: "member" },
+        { name: "Approve", group: "member" },
+      ],
+    },
+    {
+      name: "Project Management",
+      group: "project",
+      children: [
+        { name: "View Projects", group: "project" },
+        { name: "Edit Projects", group: "project" },
+        { name: "Create Projects", group: "project" },
+        { name: "List Projects", group: "project" },
+      ],
+    },
+    {
+      name: "Issue Management",
+      group: "issue",
+      children: [
+        { name: "View Issues", group: "issue" },
+        { name: "Edit Issues", group: "issue" },
+        { name: "Create Issues", group: "issue" },
+        { name: "List Issues", group: "issue" },
+        { name: "Priority", group: "issue" },
+      ],
+    },
+  ];
+
+  // First, create all permissions with their hierarchy
+  const createdPermissions = [];
+  
+  for (const parentPermission of permissionTree) {
+    // Create parent permission
+    const parent = await prisma.permission.create({
+      data: {
+        name: parentPermission.name,
+        group: parentPermission.group,
+      },
+    });
+
+    // Create child permissions
+    for (const childPermission of parentPermission.children) {
+      const child = await prisma.permission.create({
+        data: {
+          name: childPermission.name,
+          group: childPermission.group,
+          parentId: parent.id,
+        },
+      });
+      createdPermissions.push(child);
+    }
+    createdPermissions.push(parent);
+  }
+
+  // Seed roles
   const roles = await Promise.all([
     prisma.role.upsert({
       where: { name: 'SUPER_ADMIN' },
@@ -31,16 +104,21 @@ async function main() {
     })
   ]);
 
+  // Seed project members
   const pjMembers = await Promise.all([
-    prisma.pjMember.create({
-      data: {
+    prisma.pjMember.upsert({
+      where: { member_id: 'PM00001' },
+      update: {},
+      create: {
         member_id: 'PM00001',
         member_type: 'MANAGER',
         created_by: 'system'
       }
     }),
-    prisma.pjMember.create({
-      data: {
+    prisma.pjMember.upsert({
+      where: { member_id: 'PM00002' },
+      update: {},
+      create: {
         member_id: 'PM00002',
         member_type: 'DEVELOPER',
         created_by: 'system'
@@ -48,6 +126,7 @@ async function main() {
     })
   ]);
 
+  // Seed user groups
   const userGroups = await Promise.all([
     prisma.userGroup.upsert({
       where: { groupId: 'gp00001' },
@@ -57,7 +136,6 @@ async function main() {
         name: 'BD',
         systemType: 'INTERNAL',
         description: 'Business Development',
-        permission: {},
         createdBy: 'system'
       }
     }),
@@ -69,12 +147,24 @@ async function main() {
         name: 'PMO',
         systemType: 'INTERNAL',
         description: 'Project Management Office',
-        permission: {},
         createdBy: 'system'
       }
     })
   ]);
 
+  // Assign all permissions to the user groups
+  for (const group of userGroups) {
+    for (const permission of createdPermissions) {
+      await prisma.groupPermission.create({
+        data: {
+          userGroupId: group.id,
+          permissionId: permission.id,
+        },
+      });
+    }
+  }
+
+  // Seed users
   const password = await hash('securepassword123', 12);
 
   const users = await Promise.all([
@@ -112,16 +202,17 @@ async function main() {
     })
   ]);
 
-  console.log('✅ Database seeded successfully:');
+  console.log('Database seeded successfully:');
   console.log(`- Roles: ${roles.length}`);
   console.log(`- Project Members: ${pjMembers.length}`);
   console.log(`- User Groups: ${userGroups.length}`);
+  console.log(`- Permissions: ${createdPermissions.length}`);
   console.log(`- Users: ${users.length}`);
 }
 
 main()
   .catch((e) => {
-    console.error('❌ Seed failed:', e);
+    console.error('Seed failed:', e);
     process.exit(1);
   })
   .finally(async () => {

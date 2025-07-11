@@ -132,7 +132,7 @@ export default function UserCreatePage() {
                 <h1 className='font-bold text-2xl'>User List</h1>
                 <Button
                     id="add-user-btn"
-                    onClick={() => (window.location.href = "/user")}
+                    onClick={() => (window.location.href = "/usercreate")}
                     className="mb-4 bg-[#4CAF50] hover:bg-[#3e8e41] text-white px-4 py-2 rounded flex items-center gap-2 justify-center"
                 >
                     <FaUserPlus />

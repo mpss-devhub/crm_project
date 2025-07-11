@@ -41,7 +41,7 @@ export default function LoginForm() {
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             required
-                            className="placeholder:text-[#3E4354] placeholder:opacity-75"
+                            className="placeholder:text-white placeholder:opacity-75"
                         />
                         <Label htmlFor="inputField" required={true}>
                             Email
@@ -53,7 +53,7 @@ export default function LoginForm() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
-                            className="placeholder:text-[#3E4354] placeholder:opacity-75"
+                            className="placeholder:text-white placeholder:opacity-75"
                         />
                         <Label htmlFor="inputField" required={true}>
                             Password
@@ -63,7 +63,7 @@ export default function LoginForm() {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
-                            className="placeholder:text-[#3E4354] placeholder:opacity-75"
+                            className="placeholder:text-white placeholder:opacity-75"
                         />
                         <Button
                             id="login"
