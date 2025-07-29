@@ -3,9 +3,10 @@ import React from 'react';
 type ButtonProps = {
   id: string;
   type?: 'button' | 'submit' | 'reset';
-  value: string;
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   className?: string;
+  children: React.ReactNode;
+  href?: string;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export default function Button({
@@ -14,6 +15,8 @@ export default function Button({
   value,
   onClick,
   className = '',
+  children,
+  href,
   ...rest
 }: ButtonProps) {
   return (
@@ -21,10 +24,10 @@ export default function Button({
       id={id}
       type={type}
       onClick={onClick}
-      className={`my-3 bg-[rgba(16,53,163,0.57)] text-white px-4 py-2 rounded w-full max-w-[460px] cursor-pointer text-sm sm:text-base ${className}`}
+      className={`my-3 text-white px-4 py-1 rounded-2xl w-full max-w-[150px] cursor-pointer text-sm sm:text-base ${className}`}
       {...rest}
     >
-      {value}
+      {children}
     </button>
 
   );
