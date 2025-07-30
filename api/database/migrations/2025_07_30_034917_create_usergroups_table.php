@@ -9,20 +9,15 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-     public function up(): void
+    public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('usergroups', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id', 7)->unique();
-            $table->string('role_id');
+            $table->string('usergp_id', 7)->unique();
             $table->string('name', 255);
-            $table->string('email', 255)->unique();
-            $table->string('phone', 16)->nullable();
-            $table->string('password', 8);
-            $table->integer('pj_member_id')->nullable();
-            $table->string('user_group_id', 7)->nullable();
-            $table->string('department', 255)->nullable();
-            $table->string('project', 255)->nullable();
+            $table->string('system_type',255);
+            $table->string('description',255);
+            $table->Json('permission');
             $table->string('created_by', 255)->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->string('updated_by', 255)->nullable();
@@ -37,8 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
-        Schema::dropIfExists('password_reset_tokens');
-        Schema::dropIfExists('sessions');
+        Schema::dropIfExists('usergroups');
     }
 };
