@@ -11,7 +11,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(\App\Contracts\Services\UserGroup\UserGroupServiceInterface::class, \App\Services\UserGroup\UserGroupService::class);
+        $this->app->bind(\App\Contracts\Dao\UserGroup\UserGroupDaoInterface::class, \App\Dao\UserGroup\UserGroupDao::class);
     }
 
     /**
