@@ -1,0 +1,102 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int        @id @default(autoincrement())
+  user_id       String     @unique @db.VarChar(7)
+  role          Role       @relation(fields: [role_id], references: [id])
+  role_id       Int
+  name          String     @db.VarChar(255)
+  email         String     @unique @db.VarChar(255)
+  phone         String?    @db.VarChar(16)
+  password      String     @db.VarChar(255)
+  pj_member     PjMember   @relation(fields: [pj_member_id], references: [id])
+  pj_member_id  Int
+  user_group    UserGroup? @relation(fields: [user_group_id], references: [id])
+  user_group_id Int?
+  department    String?    @db.VarChar(45)
+  project       Project?   @relation(fields: [project_id], references: [id])
+  project_id    Int?
+  created_by    String?    @db.VarChar(255)
+  created_at    DateTime   @default(now()) @db.Timestamp(6)
+  updated_at    DateTime   @updatedAt @db.Timestamp(6)
+
+  @@index([user_id], name: "user_id_index")
+  @@index([email], name: "email_index")
+}
+
+model Project {
+  id           Int       @id @default(autoincrement())
+  pj_id        String    @unique @db.VarChar(7)
+  pj_name      String    @db.VarChar(255)
+  pj_member    PjMember  @relation(fields: [pj_member_id], references: [id])
+  pj_member_id Int
+  company      String    @db.VarChar(255)
+  users        User[]
+  created_by   String?   @db.VarChar(45)
+  created_at   DateTime  @default(now()) @db.Timestamp(6)
+  updated_by   String?   @db.VarChar(45)
+  updated_at   DateTime  @updatedAt @db.Timestamp(6)
+  deleted_by   String?   @db.VarChar(45)
+  deleted_at   DateTime? @db.Timestamp(6)
+
+  @@index([deleted_at], name: "project_deleted_at_idx")
+  @@map("projects")
+}
+
+model PjMember {
+  id          Int       @id @default(autoincrement())
+  member_id   String    @unique @db.VarChar(7)
+  member_type String    @db.VarChar(45)
+  projects    Project[]
+  users       User[]
+  created_by  String?   @db.VarChar(45)
+  created_at  DateTime  @default(now()) @db.Timestamp(6)
+  updated_by  String?   @db.VarChar(45)
+  updated_at  DateTime  @updatedAt @db.Timestamp(6)
+  deleted_by  String?   @db.VarChar(45)
+  deleted_at  DateTime? @db.Timestamp(6)
+
+  @@index([deleted_at], name: "pj_member_deleted_at_idx")
+  @@map("pj_members")
+}
+
+model Role {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique @db.VarChar(45)
+  description String?   @db.VarChar(255)
+  users       User[]
+  created_at  DateTime  @default(now()) @db.Timestamp(6)
+  updated_at  DateTime  @updatedAt @db.Timestamp(6)
+  deleted_at  DateTime? @db.Timestamp(6)
+
+  @@index([deleted_at], name: "deleted_at_index")
+  @@map("roles")
+}
+
+model UserGroup {
+  id          Int       @id @default(autoincrement())
+  name        String    @db.VarChar(255)
+  systemType  String?   @map("system_type") @db.VarChar(25)
+  description String?   @db.VarChar(255)
+  permission  Json?
+  createdBy   String?   @map("created_by") @db.VarChar(255)
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedBy   String?   @map("updated_by") @db.VarChar(255)
+  updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamp(6)
+  deletedBy   String?   @map("deleted_by") @db.VarChar(255)
+  deletedAt   DateTime? @map("deleted_at") @db.Timestamp(6)
+
+  users User[]
+
+  @@index([deletedAt], name: "user_group_deleted_at_idx")
+  @@index([systemType], name: "user_group_system_type_idx")
+  @@map("user_groups")
+}
