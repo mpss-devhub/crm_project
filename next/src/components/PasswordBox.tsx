@@ -31,7 +31,7 @@ export default function PasswordBox({
         value={value}
         onChange={onChange}
         required={required}
-        className={`w-full bg-[#D9D9D9] ring-2 ring-[#b4def3] border border-gray-300 rounded-[10px] py-1 px-3 pr-10 text-sm sm:text-base outline-none focus:ring-2 focus:ring-blue-400 ${className}`}
+        className={`w-full ring-2 ring-[#b4def3] border border-gray-300 rounded-[10px] py-1 px-3 pr-10 text-sm sm:text-base outline-none focus:ring-2 focus:ring-blue-400 ${className}`}
         {...rest}
       />
       <button
