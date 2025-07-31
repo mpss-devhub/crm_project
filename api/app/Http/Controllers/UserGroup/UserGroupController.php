@@ -34,9 +34,10 @@ class UserGroupController extends Controller
         return response()->json($userGroup);
     }
 
-    public function sumitCreateUserGroup(UserGroupRequestStore $request)
+    public function submitCreateUserGroup(UserGroupRequestStore $request)
     {
-        $validated = $request->validate();
+        $validated = $request->validated();
+        // return apiResponse(true, 'User Group Create Successfully', null);
         $createdUserGroup = $this->userGroupInterface->storeUserGroup($validated);
         return apiResponse(true, 'User Group Create Successfully', $createdUserGroup);
     }

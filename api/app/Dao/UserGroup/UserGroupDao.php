@@ -15,8 +15,16 @@ class UserGroupDao implements UserGroupDaoInterface
 
     public function getUserGroupList()
     {
-        $userGroupList = Usergroup::orderBy('usergp_id', 'DESC');
-        return $userGroupList;
+       return Usergroup::query()
+        ->orderBy('usergp_id', 'DESC')
+        ->get([
+            'usergp_id',
+            'name', 
+            'system_type',
+            'description',
+            'permission',
+            'created_at'
+        ]);
     }
 
     /**

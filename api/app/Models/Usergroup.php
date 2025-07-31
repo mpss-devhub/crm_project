@@ -11,6 +11,10 @@ class usergroup extends Model
 {
     use HasFactory, Notifiable, SoftDeletes;
 
+    protected $casts = [
+        'permission' => 'array', // This will auto-convert between array and JSON
+    ];
+
     /**
      * The attributes that are mass assignable.
      *

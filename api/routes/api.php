@@ -6,7 +6,7 @@ use App\Http\Controllers\UserGroup\UserGroupController;
 // Route::get('/', function () {
 //     return apiResponse(true, 'User Group Create Successfully', null);
 // });
-Route::post('/usergroups', [UserGroupController::class, 'sumitCreateUserGroup']);
+Route::post('/usergroupstore', [UserGroupController::class, 'submitCreateUserGroup']);
 Route::get('/usergroups', [UserGroupController::class, 'showUserGroupList']);
 
 // super admins
