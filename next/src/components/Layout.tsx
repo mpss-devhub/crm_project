@@ -21,7 +21,8 @@ export default function Layout({ children, isAdmin = false }: LayoutProps) {
     ];
     
     const adminMenuItems = [
-      { name: 'User Manage', path: '/admin/user', icon: <MdPeople size={20} /> },
+      { name: 'User Manage', path: '/admin/user/list', icon: <MdPeople size={20} /> },
+      { name: 'User Group', path: '/admin/usergroup/list', icon: <MdPeople size={20} /> },
       { name: 'Projects', path: '/admin/projects', icon: <GoProject size={20} /> },
     ];
     
