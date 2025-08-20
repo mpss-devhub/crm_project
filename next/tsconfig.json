@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -20,14 +24,28 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"],
-      "@/styles/*": ["styles/*"],
-      "@/components/*": ["components/*"],
-      "@/lib/*": ["./lib/*"],
-      "@/api/*": ["api/*"],
-      "@/prisma/client": ["node_modules/@prisma/client"]
+      "@/*": [
+        "./src/*"
+      ],
+      "@/styles/*": [
+        "styles/*"
+      ],
+      "@/components/*": [
+        "components/*"
+      ],
+      "@/server/*": [
+        "../server/*"
+      ],
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/lib/db.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/lib/db.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

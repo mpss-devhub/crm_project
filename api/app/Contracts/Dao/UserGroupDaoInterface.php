@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Contracts\Dao\UserGroup;
+namespace App\Contracts\Dao;
 
 use App\Models\Usergroup;
 
 interface UserGroupDaoInterface
 {
     /**
-     * To get user list
-     * @return $userList
+     * To get usergroup list
+     * @return $userGroupList
      */
     public function getUserGroupList();
 

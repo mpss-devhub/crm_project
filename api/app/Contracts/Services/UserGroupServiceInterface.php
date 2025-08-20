@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Contracts\Services\UserGroup;
+namespace App\Contracts\Services;
 
 use App\Models\Usergroup;
 
@@ -8,7 +8,7 @@ interface UserGroupServiceInterface
 {
     /**
      * To get usergroup list
-     * @return $userList
+     * @return $userGroupList
      */
     public function getUserGroupList();
 

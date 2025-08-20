@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Dao\UserGroup;
+namespace App\Dao;
 
-use App\Contracts\Dao\UserGroup\UserGroupDaoInterface;
+use App\Contracts\Dao\UserGroupDaoInterface;
 use App\Models\Usergroup;
 use Carbon\Carbon;
 
@@ -15,16 +15,16 @@ class UserGroupDao implements UserGroupDaoInterface
 
     public function getUserGroupList()
     {
-       return Usergroup::query()
-        ->orderBy('usergp_id', 'DESC')
-        ->get([
-            'usergp_id',
-            'name', 
-            'system_type',
-            'description',
-            'permission',
-            'created_at'
-        ]);
+        return Usergroup::query()
+            ->orderBy('usergp_id', 'DESC')
+            ->get([
+                'usergp_id',
+                'name',
+                'system_type',
+                'description',
+                'permission',
+                'created_at'
+            ]);
     }
 
     /**
@@ -58,7 +58,8 @@ class UserGroupDao implements UserGroupDaoInterface
      * @param string Usergroup $usergroup userGroup id
      * @return Object $userGroup userGroup object
      */
-    public function getUserGroupId(Usergroup $usergroup) {
+    public function getUserGroupId(Usergroup $usergroup)
+    {
         $userGroup = Usergroup::find($usergroup);
         return $userGroup;
     }
@@ -69,7 +70,8 @@ class UserGroupDao implements UserGroupDaoInterface
      * @param string $id usergroup id
      * @return Object $usergroup usergroup object
      */
-    public function updateUserGroupById($validated, Usergroup $usergroup) {
+    public function updateUserGroupById($validated, Usergroup $usergroup)
+    {
         $userGroup = Usergroup::find($usergroup);
         $userGroup->name = $validated['name'];
         $userGroup->system_type = $validated['system_type'];
@@ -85,11 +87,11 @@ class UserGroupDao implements UserGroupDaoInterface
      * @param string $id usergroup id
      * @param string $deletedusergroupId deleted usergroup id
      */
-    public function deleteUserGroupById(Usergroup $usergroup) {
-        $userGroup = Usergroup::find($usergroup);
-        $userGroup->deleted_at = Carbon::now();
-        $userGroup->save();
+    public function deleteUserGroupById(Usergroup $usergroup)
+    {
+        $usergroup->deleted_at = Carbon::now();
+        $usergroup->save();
 
-        return $userGroup;
+        return $usergroup;
     }
 }

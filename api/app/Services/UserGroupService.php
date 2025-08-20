@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Services\UserGroup;
+namespace App\Services;
 
-use App\Contracts\Services\UserGroup\UserGroupServiceInterface;
-use App\Contracts\Dao\UserGroup\UserGroupDaoInterface;
+use App\Contracts\Services\UserGroupServiceInterface;
+use App\Contracts\Dao\UserGroupDaoInterface;
 use App\Models\Usergroup;
 
 class UserGroupService implements UserGroupServiceInterface

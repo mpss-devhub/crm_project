@@ -35,7 +35,6 @@ class UserGroupRequestStore extends FormRequest
     public function rules(): array
     {
         return [
-            'usergp_id' => 'required|string|size:7|unique:usergroups,usergp_id',
             'name' => 'required|string|max:255',
             'system_type' => 'required|string|max:50',
             'description' => 'nullable|string|max:255',
