@@ -15,15 +15,16 @@ return new class extends Migration
             $table->id();
             $table->string('usergp_id', 7)->unique();
             $table->string('name', 255);
-            $table->string('system_type',255);
-            $table->string('description',255);
-            $table->Json('permission');
+            $table->enum('system_type', ['Admin', 'User', 'Guest'])->default('User');
+            $table->string('description', 255)->nullable();
+            $table->text('permission',500);
             $table->string('created_by', 255)->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->string('updated_by', 255)->nullable();
             $table->timestamp('updated_at')->nullable();
             $table->string('deleted_by', 255)->nullable();
             $table->softDeletes();
+            $table->index('system_type');
         });
     }
 

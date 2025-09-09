@@ -60,12 +60,12 @@ export default function UserCreatePage() {
     ];
 
     const columns: ColumnDefinition<User>[] = [
-        {
-            key: 'index',
-            header: '#',
-            sortable: false,
-            render: (_: any, index?: number) => (index ?? 0) + 1
-        },
+        // {
+        //     key: 'index',
+        //     header: '#',
+        //     sortable: false,
+        //     render: (_: any, index?: number) => (index ?? 0) + 1
+        // },
         {
             key: 'userid',
             header: 'UserID',
