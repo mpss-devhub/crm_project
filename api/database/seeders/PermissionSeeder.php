@@ -12,20 +12,16 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        // Clear existing permissions
         Permission::truncate();
-
-        // Create root permission
         $root = Permission::create([
             'id' => 1,
             'permission_id' => 'p000001',
             'name' => 'all_permissions',
             'label' => 'All Permissions',
             
-            'group' => 'root'
+            'group' => ''
         ]);
 
-        // User Management
         $userManagement = Permission::create([
             'id' => 2,
             'permission_id' => 'p000002',
@@ -48,7 +44,6 @@ class PermissionSeeder extends Seeder
             Permission::create(array_merge($permission, ['parent_id' => $userManagement->id]));
         }
 
-        // Member Management
         $memberManagement = Permission::create([
             'id' => 8,
             'permission_id' => 'p000008',
@@ -71,7 +66,6 @@ class PermissionSeeder extends Seeder
             Permission::create(array_merge($permission, ['parent_id' => $memberManagement->id]));
         }
 
-        // Project Management
         $projectManagement = Permission::create([
             'id' => 14,
             'permission_id' => 'p000014',
@@ -93,7 +87,6 @@ class PermissionSeeder extends Seeder
             Permission::create(array_merge($permission, ['parent_id' => $projectManagement->id]));
         }
 
-        // Issue Management
         $issueManagement = Permission::create([
             'id' => 19,
             'permission_id' => 'p000019',

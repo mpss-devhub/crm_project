@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('permission_id', 7)->unique();
             $table->string('name', 255);
             $table->string('label', 255);
-            $table->string('group', 50);
+            $table->string('group', 50)->nullable();
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->string('created_by', 255)->nullable();
             $table->timestamp('created_at')->useCurrent();

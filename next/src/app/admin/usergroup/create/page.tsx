@@ -10,6 +10,7 @@ interface PermissionTree {
 
 export default async function UserGroupCreatePage() {
   const data: Record<string, string[]> = await get();
+  console.log(data);
 
   const permissions: PermissionTree[] = Object.entries(data).map(
     ([group, perms]) => ({
