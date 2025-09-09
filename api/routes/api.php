@@ -7,11 +7,11 @@ use App\Http\Controllers\PermissionController;
 
 Route::post('/usergroupstore', [UserGroupController::class, 'submitCreateUserGroup']);
 Route::get('/usergroups', [UserGroupController::class, 'showUserGroupList']);
-Route::get('/usergroupedit/{usergroup}',[UserGroupController::class,'showEditUserGroup']);
-Route::put('/usergroupupdate/{usergroup}',[UserGroupController::class,'submitUpdateUserGroup']);
-Route::delete('/usergroupdestroy/{usergroup}',[UserGroupController::class,'destroyUserGroup']);
+Route::get('/usergroupedit/{usergroup}', [UserGroupController::class, 'showEditUserGroup']);
+Route::put('/usergroupupdate/{usergroup}', [UserGroupController::class, 'submitUpdateUserGroup']);
+Route::delete('/usergroupdestroy/{usergroup}', [UserGroupController::class, 'destroyUserGroup']);
 
-Route::get('/permission',[PermissionController::class,'showPermissionList']);
+Route::get('/permission', [PermissionController::class, 'showPermissionList']);
 // super admins
 // Route::middleware(['auth:sanctum', 'role:super_admin'])->group(function () {
     

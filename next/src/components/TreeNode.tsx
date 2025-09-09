@@ -1,20 +1,15 @@
 "use client";
 
+import { PermissionTree } from "@/types/permission";
 import React, { JSX, useState } from "react";
 
-interface PermissionNode {
-  id: string;
-  label: string;
-  checked?: boolean;
-  children?: PermissionNode[];
-}
 
 interface TreeNodeProps {
-  node: PermissionNode;
-  onChange: (updatedNode: PermissionNode) => void;
+  node: PermissionTree;
+  onChange: (updatedNode: PermissionTree) => void;
 }
 
-const updateChecked = (node: PermissionNode, checked: boolean): PermissionNode => {
+const updateChecked = (node: PermissionTree, checked: boolean): PermissionTree => {
   return {
     ...node,
     checked,
