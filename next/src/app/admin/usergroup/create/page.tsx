@@ -16,7 +16,7 @@ import SelectBox from 'components/selectBox';
 import { Label } from 'components/label';
 import CreateButton from 'components/createBtn';
 import TreeNode from '@/components/TreeNode';
-import { get } from "@/server/permission";
+import { get } from "@/lib/permission";
 
 export default async function UserGroupCreatePage() {
     const [name, setName] = useState('');
