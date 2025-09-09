@@ -4,8 +4,9 @@ import { useState } from 'react';
 import InputBox from './InputBox';
 import PasswordBox from './PasswordBox';
 import Button from "./Button";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import type { FormEvent } from 'react';
+import { Label } from '@/components/label';
 
 
 export default function LoginForm() {
@@ -13,19 +14,20 @@ export default function LoginForm() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const router = useRouter()
-  async function handleSubmit(event: FormEvent<HTMLFormElement>){
+  const router = useRouter();
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
     const email = formData.get('email')
     const password = formData.get('password')
 
-    const response = await fetch('/api/auth/login',{
+    const response = await fetch('/api/auth/login', {
       method: 'POST',
-      headers: { 'Content-Type' : 'application/json'},
-      body: JSON.stringify({email, password}),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
     })
-    if(response.ok){
+    if (response.ok) {
       router.push('/profile')
     }
   }
@@ -50,16 +52,20 @@ export default function LoginForm() {
             </p>
           </div>
           <div className="max-w-lg space-y-4 mx-auto">
+            <Label htmlFor="name" required={true}>
+              Name
+            </Label>
             <InputBox
-              label="Name"
               id="name"
               placeholder="Enter your name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
             />
+            <Label htmlFor="email" required={true}>
+              Email
+            </Label>
             <InputBox
-              label="Email"
               id="email"
               type="email"
               placeholder="you@example.com"
@@ -67,21 +73,20 @@ export default function LoginForm() {
               onChange={(e) => setEmail(e.target.value)}
               required
             />
+            <Label htmlFor="password" required={true}>
+              Password
+            </Label>
             <PasswordBox
-              label="Password"
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
             <Button
+              onClick={() => { }}
               id="login"
-              value="Login"
-              onClick={() => {
-                console.log('Login clicked');
-              }}
               className="w-full"
-            />
+            >Login </Button>
           </div>
         </main>
       </div>
