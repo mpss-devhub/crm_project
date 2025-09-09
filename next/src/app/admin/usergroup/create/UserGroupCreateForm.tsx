@@ -70,6 +70,7 @@ const UserGroupCreateForm = ({
               <div className="flex-1">
                 <InputBox
                   id="name"
+                  name="name"
                   placeholder="Enter name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -107,6 +108,7 @@ const UserGroupCreateForm = ({
               <div className="flex-1">
                 <InputBox
                   id="description"
+                  name="description"
                   type="text"
                   placeholder="Enter Description"
                   value={description}
@@ -124,6 +126,7 @@ const UserGroupCreateForm = ({
               <div className="flex-1">
                 <PasswordBox
                   id="password"
+                  name="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required

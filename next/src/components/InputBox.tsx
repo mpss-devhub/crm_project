@@ -2,6 +2,7 @@ import React from "react";
 
 type InputBoxProps = {
   id: string;
+  name: string;
   type?: string;
   placeholder?: string;
   value: string;
@@ -12,6 +13,7 @@ type InputBoxProps = {
 
 export default function InputBox({
   id,
+  name,
   type = "text",
   placeholder = "",
   value,
@@ -24,6 +26,7 @@ export default function InputBox({
     <div className="my-3 w-full max-w-[460px]">
       <input
         id={id}
+        name={name}
         type={type}
         placeholder={placeholder}
         value={value}
