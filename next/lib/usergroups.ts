@@ -7,7 +7,7 @@ export interface UserGroup {
   action: string;
 }
 
-const get = async (): Promise<UserGroup[]> => {
+export const get = async (): Promise<UserGroup[]> => {
   const res = await fetch(`${process.env.APP_URL}/usergroups`);
   if (!res.ok) {
     throw new Error(`Failed to fetch user groups: ${res.statusText}`);
@@ -16,12 +16,10 @@ const get = async (): Promise<UserGroup[]> => {
   return json;
 };
 
-const post = async (data: Partial<UserGroup>): Promise<UserGroup> => {
+export const post = async (data: Partial<UserGroup>): Promise<UserGroup> => {
   const res = await fetch(`${process.env.APP_URL}/usergroupstore`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
   if (!res.ok) {
@@ -30,5 +28,3 @@ const post = async (data: Partial<UserGroup>): Promise<UserGroup> => {
   const json = await res.json();
   return json;
 };
-
-export const usergroups = { get };
